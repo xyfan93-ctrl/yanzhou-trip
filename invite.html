@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>州之行邀请函</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  body {
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    min-height: 100vh;
+    background: url('invite_bg.jpg') center center / cover no-repeat fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 0;
+  }
+  
+  .invite-card {
+    position: relative;
+    z-index: 1;
+    max-width: 420px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 24px;
+    padding: 32px 24px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    text-align: center;
+  }
+  
+  .invite-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #E91E63;
+    margin-bottom: 8px;
+    text-shadow: 0 2px 4px rgba(233, 30, 99, 0.2);
+  }
+  
+  .invite-subtitle {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 24px;
+  }
+  
+  .trip-info {
+    background: linear-gradient(135deg, #FFF9C4, #F8BBD0);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 24px;
+  }
+  
+  .trip-info h3 {
+    font-size: 18px;
+    color: #C2185B;
+    margin-bottom: 12px;
+  }
+  
+  .info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    font-size: 14px;
+    color: #333;
+  }
+  
+  .info-label {
+    color: #666;
+  }
+  
+  .info-value {
+    font-weight: 600;
+    color: #1a2744;
+  }
+  
+  .people-list {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+  }
+  
+  .person {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 700;
+    color: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  .person.fan { background: linear-gradient(135deg, #42A5F5, #1E88E5); }
+  .person.xu { background: linear-gradient(135deg, #AB47BC, #8E24AA); }
+  .person.min { background: linear-gradient(135deg, #66BB6A, #43A047); }
+  .person.yan { background: linear-gradient(135deg, #26C6DA, #00ACC1); }
+  .person.ya { background: linear-gradient(135deg, #FF7043, #E64A19); }
+  
+  .qr-section {
+    margin: 24px 0;
+  }
+  
+  .qr-code {
+    width: 180px;
+    height: 180px;
+    margin: 0 auto 12px;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  }
+  
+  .qr-hint {
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 16px;
+  }
+  
+  .link-box {
+    background: #f5f5f5;
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: #1565C0;
+    word-break: break-all;
+    margin-bottom: 20px;
+  }
+  
+  .cta-button {
+    display: inline-block;
+    background: linear-gradient(135deg, #E91E63, #C2185B);
+    color: white;
+    text-decoration: none;
+    padding: 14px 32px;
+    border-radius: 28px;
+    font-size: 16px;
+    font-weight: 600;
+    box-shadow: 0 6px 20px rgba(233, 30, 99, 0.4);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(233, 30, 99, 0.5);
+  }
+  
+  .footer-note {
+    margin-top: 20px;
+    font-size: 12px;
+    color: #999;
+    line-height: 1.6;
+  }
+  
+  @media (max-width: 480px) {
+    .invite-card {
+      padding: 24px 16px;
+    }
+    .invite-title {
+      font-size: 24px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="invite-card">
+  <div class="invite-title">🎉 兖州之行邀请函</div>
+  <div class="invite-subtitle">田栩宁生日快乐！一起出发吧～</div>
+  
+  <div class="trip-info">
+    <h3>📍 行程信息</h3>
+    <div class="info-row">
+      <span class="info-label">日期</span>
+      <span class="info-value">2026.9.17 (三) — 9.20 (六)</span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">地点</span>
+      <span class="info-value">山东 · 兖州</span>
+    </div>
+    <div class="info-row">
+      <span class="info-label">主题</span>
+      <span class="info-value">庆生 + 应援 + 打卡</span>
+    </div>
+  </div>
+  
+  <div class="people-list">
+    <div class="person fan">凡</div>
+    <div class="person xu">栩</div>
+    <div class="person min">敏</div>
+    <div class="person yan">燕</div>
+    <div class="person ya">鸭</div>
+  </div>
+  
+  <div class="qr-section">
+    <img class="qr-code" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAXIAAAFyCAIAAABnRsZeAAAHDklEQVR4nO3c240jNwBFwRnDWSgBJ+KoNxEnoDjaGeiHhyKbXfW/rccIB1zggr/Xdf0AdP4KnwUgK0DPaQWIyQoQkxUgJitATFaAmKwAMVkBYrICxGQFiMkKEJMVICYrQExWgJisADFZAWKyAsRkBYjJChCTFSAmK0BMVoCYrAAxWQFisgLEZAWIyQoQkxUgJitATFaAmKwAMVkBYrICxGQFiMkKEJMVICYrQExWgNjfP4u8/vn35yzv//5M+jbmPXmez+953ru643c1z8i3McJpBYjJChCTFSAmK0BMVoCYrAAxWQFisgLEZAU4ZWW75zrws1Xb0PNed967mrdXftpvcoTTChCTFSAmK0BMVoCYrAAxWQFisgLEZAWQFWBvm65sP9vzJtTP7riU3fN23j23sHf8Tc7jP0FATFaAmKwAMVkBYrICxGQFiMkKEJMVICYrQOyWK9s7mreFnbdnHXnyvNdlf04rQExWgJisADFZAWKyAsRkBYjJChCTFSAmK0DMyvb2G9xV98LOe1fzFsl8h9MKEJMVICYrQExWgJisADFZAWKyAsRkBYjJChC75cp23q50lVU72lWL1fOWsuf9Jkc4rQAxWQFisgLEZAWIyQoQkxUgJitATFaAmKwAz1jZnrfCHNnR+rff+a6e9pucx2kFiMkKEJMVICYrQExWgJisADFZAWKyAsRkBThlZevuz7PvlF21hR3hN1lxWgFisgLEZAWIyQoQkxUgJitATFYAWQH25rQCxH6v6/pZYc995yrz3vOqb2PV7bx33OC+ttwcj3BaAWKyAsRkBYjJChCTFSAmK0BMVoCYrAAxWQFOucv2szvuLPfc7563HB35t3veGfye9olWLXSdVoCYrAAxWQFisgLEZAWIyQoQkxUgJitATFaAZ6xsV200P7/uvI3mnlvJVVbddHvHJ+/JaQWIyQoQkxUgJitATFaAmKwAMVkBYrICxGQFiP1e1/VzN3e8GXTPJ++5HL3jJvWOtwLP47QCxGQFiMkKEJMVICYrQExWgJisADFZAWKyApxyl+28FeaIVcvREdau3/muzttYz+O0AsRkBYjJChCTFSAmK0BMVoCYrAAxWQFisgKcsrKdZ97drvPWkHve7brqltxVr7un9w0/r9MKEJMVICYrQExWgJisADFZAWQF2JvTChCTFeCUle2qu11H7Hlv6NP+CvPs+Z5fW+5oP3NaAWKyAsRkBYjJChCTFSAmK0BMVoCYrAAxWQFiB95lO2LebbXzbiQdefKqe3/nfd49l7Lz7Pl5nVaAmKwAMVkBYrICxGQFiMkKEJMVICYrQExWgFNWtqt2pfOePLJ33PMT7fnkee54V/Fry/fstALEZAWIyQoQkxUgJitATFaAmKwAMVkBYrICnLKynbf/W3Uf7aonz+M97/89vwbWzPM4rQAxWQFisgLEZAWIyQoQkxUgJitATFaAmKwAz7jLds8968iTz7v59bORz7vnunfV3+i15Y72M6cVICYrQExWgJisADFZAWKyAsRkBYjJChCTFeAZd9muWhbecYM7b5M68q5Wve6eXou+q1WcVoCYrAAxWQFisgLEZAWQFWBvTitATFaAmKwAscfdZTti5Mk2qd/5rkYWyfO8j9vRfua0AsRkBYjJChCTFSAmK0BMVoCYrAAxWQFisgLEfq/rqp/JV5ejI+YtOOetis973dcN/76fOa0AMVkBYrICxGQFiMkKEJMVICYrQExWgJisAM+4y/aO9rx/d9VydGRXumqTuup+5feizzuP0woQkxUgJitATFaAmKwAMVkBYrICxGQFiMkKcMrKds87OD/bc+84stFctVgdMW+Tuuev7o7v2WkFiMkKEJMVICYrQExWgJisADFZAWKyAsRkBXjGynbPBefTlrLn3bG66j2/t9zCzuO0AsRkBYjJChCTFSAmK0BMVoCYrAAxWQFisgLEbrmyvaPz9rvnLUdHPtHIfvc17d+u+hs5rQAxWQFisgLEZAWQFWBvTitATFaAmKwAMVkBYla2XzKypJy3ldzzttp5y9E9d7TvRe9qHqcVICYrQExWgJisADFZAWKyAsRkBYjJChCTFSB2y5Xtebeonrfunbf+3PPJ836Try1vq/3MaQWIyQoQkxUgJitATFaAmKwAMVkBYrICxGQFeMbKds8bOud52p511Q27e26O31s+eYTTChCTFSAmK0BMVoCYrAAxWQFisgLEZAWIyQoQ+72uq34m8GhOK0BMVoCYrAAxWQFisgLEZAWIyQoQkxUgJitATFaAmKwAMVkBYrICxGQFiMkKEJMVICYrQExWgJisADFZAWKyAsRkBYjJChCTFSAmK0BMVoCYrAAxWQFisgLEZAWIyQoQkxUgJitATFaAmKwAMVkBYrICxGQFiMkK8NP6HweNJBPzQ8bxAAAAAElFTkSuQmCC" alt="行程二维码">
+    <div class="qr-hint">👆 扫码查看完整行程</div>
+  </div>
+  
+  <div class="link-box">
+    https://xyfan93-ctrl.github.io/yanzhou-trip/
+  </div>
+  
+  <a class="cta-button" href="https://xyfan93-ctrl.github.io/yanzhou-trip/" target="_blank">
+    查看完整行程 →
+  </a>
+  
+  <div class="footer-note">
+    详细行程包含每日安排、地图导航、待办事项<br>
+    有任何问题随时群里沟通～
+  </div>
+</div>
+
+</body>
+</html>
