@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>兖州之行 9.17 - 9.20</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Helvetica Neue", sans-serif;
+    background: url('bg.jpg') center center / cover no-repeat fixed;
+    color: #1a1a2e;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    padding-bottom: env(safe-area-inset-bottom);
+    min-height: 100vh;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(255, 253, 245, 0.78);
+    z-index: 0;
+    pointer-events: none;
+  }
+  body > * { position: relative; z-index: 1; }
+
+  /* === Compact Header === */
+  .header {
+    text-align: center;
+    padding: 20px 16px 14px;
+    background: linear-gradient(135deg, #fff8e1 0%, #e3f2fd 50%, #fff3e0 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -30px; right: -30px;
+    width: 120px; height: 120px;
+    background: radial-gradient(circle, rgba(255,193,7,0.2) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .header h1 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1a2744;
+    letter-spacing: 2px;
+    margin-bottom: 2px;
+  }
+  .header .subtitle {
+    font-size: 13px;
+    color: #5a6a85;
+    font-weight: 400;
+  }
+
+  /* === Tab Bar === */
+  .tab-bar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    background: #fff;
+    border-bottom: 2px solid #f0f0f0;
+    padding: 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .tab-btn {
+    flex: 1;
+    padding: 12px 4px 10px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
+    color: #8a9ab5;
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.25s;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  .tab-btn .tab-day {
+    display: block;
+    font-size: 15px;
+    font-weight: 700;
+    color: #3a4a65;
+    margin-bottom: 1px;
+    transition: color 0.25s;
+  }
+  .tab-btn .tab-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 400;
+  }
+  .tab-btn.active {
+    color: #1565C0;
+  }
+  .tab-btn.active .tab-day {
+    color: #1565C0;
+  }
+  .tab-btn::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%) scaleX(0);
+    width: 60%;
+    height: 3px;
+    background: linear-gradient(135deg, #42A5F5, #1565C0);
+    border-radius: 2px;
+    transition: transform 0.25s;
+  }
+  .tab-btn.active::after {
+    transform: translateX(-50%) scaleX(1);
+  }
+  /* Day 3 tab special color */
+  .tab-btn[data-tab="day3"].active { color: #E53935; }
+  .tab-btn[data-tab="day3"].active .tab-day { color: #E53935; }
+  .tab-btn[data-tab="day3"].active::after { background: linear-gradient(135deg, #EF5350, #E53935); }
+  /* Day 4 tab special color */
+  .tab-btn[data-tab="day4"].active { color: #FF8F00; }
+  .tab-btn[data-tab="day4"].active .tab-day { color: #FF8F00; }
+  .tab-btn[data-tab="day4"].active::after { background: linear-gradient(135deg, #FFC107, #FF8F00); }
+
+  /* === Tab Content === */
+  .tab-content {
+    display: none;
+    animation: fadeIn 0.25s ease;
+  }
+  .tab-content.active {
+    display: block;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .container { max-width: 680px; margin: 0 auto; padding: 0 12px 60px; }
+
+  /* === People bar (collapsible) === */
+  .people-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 12px;
+    background: #fff;
+    border-bottom: 1px solid #f5f5f5;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .people-toggle span {
+    font-size: 13px;
+    color: #7a8a9f;
+  }
+  .people-toggle .arrow {
+    font-size: 10px;
+    color: #aab5c5;
+    transition: transform 0.2s;
+  }
+  .people-toggle.open .arrow {
+    transform: rotate(180deg);
+  }
+  .people-panel {
+    display: none;
+    background: #fff;
+    padding: 12px 16px 16px;
+    border-bottom: 1px solid #f0f0f0;
+    animation: fadeIn 0.2s ease;
+  }
+  .people-panel.open { display: block; }
+  .people-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .person-card {
+    background: #f4f7fb;
+    border-radius: 10px;
+    padding: 8px 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .person-avatar {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    flex-shrink: 0;
+  }
+  .person-info { flex: 1; min-width: 0; }
+  .person-name { font-size: 13px; font-weight: 600; color: #1a2744; }
+  .person-arrival { font-size: 11px; color: #7a8a9f; margin-top: 1px; }
+  .c-fan { background: linear-gradient(135deg, #FFC107, #FF8F00); }
+  .c-xu { background: linear-gradient(135deg, #42A5F5, #1565C0); }
+  .c-min { background: linear-gradient(135deg, #EF5350, #C62828); }
+  .c-yan { background: linear-gradient(135deg, #43e97b, #38f9d7); }
+  .c-ya { background: linear-gradient(135deg, #FF7043, #E64A19); }
+
+  /* === Day section === */
+  .day-section {
+    background: rgba(255, 255, 255, 0.88);
+    border-radius: 14px;
+    padding: 16px;
+    margin: 12px 0;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  }
+  .day-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #fff3e0;
+  }
+  .day-badge {
+    background: linear-gradient(135deg, #42A5F5, #1565C0);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 16px;
+    white-space: nowrap;
+  }
+  .day-date { font-size: 13px; color: #7a8a9f; }
+  .day-weekday { font-size: 13px; color: #3a4a65; font-weight: 500; }
+
+  /* === Timeline === */
+  .timeline { position: relative; padding-left: 18px; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 8px;
+    bottom: 8px;
+    width: 2px;
+    background: #ffe0b2;
+    border-radius: 1px;
+  }
+  .tl-item {
+    position: relative;
+    padding: 0 0 16px 16px;
+  }
+  .tl-item:last-child { padding-bottom: 0; }
+  .tl-dot {
+    position: absolute;
+    left: -2px;
+    top: 6px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #42A5F5;
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 2px #42A5F5;
+    z-index: 1;
+  }
+  .tl-dot.food { background: #EF5350; box-shadow: 0 0 0 2px #EF5350; }
+  .tl-dot.hotel { background: #43e97b; box-shadow: 0 0 0 2px #43e97b; }
+  .tl-dot.event { background: #42A5F5; box-shadow: 0 0 0 2px #42A5F5; }
+  .tl-dot.depart { background: #FF7043; box-shadow: 0 0 0 2px #FF7043; }
+  .tl-time {
+    font-size: 12px;
+    font-weight: 600;
+    color: #1565C0;
+    margin-bottom: 2px;
+  }
+  .tl-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1a2744;
+    margin-bottom: 3px;
+  }
+  .tl-detail {
+    font-size: 12px;
+    color: #5a6a85;
+    line-height: 1.6;
+  }
+  .tl-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 5px;
+  }
+  .tl-tag {
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 8px;
+    background: #f0f3f8;
+    color: #5a6a85;
+    white-space: nowrap;
+  }
+  .tl-tag.who { background: #e3f2fd; color: #1565C0; }
+  .tl-tag.note { background: #ffebee; color: #C62828; }
+  .tl-tag.tbd { background: #fffde7; color: #F57F17; border: 1px dashed #FFD54F; }
+
+  /* === Map link === */
+  .map-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    color: #1565C0;
+    text-decoration: none;
+    font-size: 12px;
+    margin-top: 3px;
+  }
+  .map-link:hover { text-decoration: underline; }
+  .map-link svg { width: 12px; height: 12px; fill: #1565C0; }
+
+  /* === Departure grid === */
+  .depart-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 8px;
+  }
+  .depart-card {
+    background: #fffde7;
+    border-radius: 10px;
+    padding: 10px 10px;
+    text-align: center;
+  }
+  .depart-card .name { font-size: 13px; font-weight: 600; color: #1a2744; }
+  .depart-card .time { font-size: 13px; color: #E53935; font-weight: 600; margin: 2px 0; }
+  .depart-card .station { font-size: 11px; color: #7a8a9f; }
+
+  /* === Highlight boxes === */
+  .highlight-box {
+    background: linear-gradient(135deg, #fffde7, #e3f2fd);
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin: 8px 0;
+    border-left: 3px solid #FFC107;
+  }
+  .highlight-box .hl-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: #3a4a65;
+    margin-bottom: 3px;
+  }
+  .highlight-box .hl-text {
+    font-size: 12px;
+    color: #5a6a85;
+  }
+  .album-highlight {
+    background: linear-gradient(135deg, #fff8e1, #ffebee);
+    border: 2px solid #EF5350;
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin: 8px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .album-highlight .ah-time {
+    font-size: 20px;
+    font-weight: 800;
+    color: #E53935;
+    letter-spacing: 1px;
+  }
+  .album-highlight .ah-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1a2744;
+    margin: 3px 0;
+  }
+  .album-highlight .ah-sub {
+    font-size: 11px;
+    color: #7a8a9f;
+  }
+  .birthday-banner {
+    background: linear-gradient(135deg, #fffde7, #fce4ec);
+    border-radius: 14px;
+    padding: 12px 14px;
+    margin: 8px 0;
+    border-left: 3px solid #FFC107;
+  }
+  .birthday-banner .bb-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #E65100;
+    margin-bottom: 3px;
+  }
+  .birthday-banner .bb-text {
+    font-size: 12px;
+    color: #5a6a85;
+  }
+
+  /* === Bottom sections === */
+  .info-section {
+    background: #fff;
+    border-radius: 14px;
+    padding: 16px;
+    margin: 12px 0;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  }
+  .info-section h2 {
+    font-size: 15px;
+    color: #3a4a65;
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+  .unconfirmed-section {
+    background: #fff;
+    border-radius: 14px;
+    padding: 16px;
+    margin: 12px 0;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    border: 1px dashed #FFD54F;
+  }
+  .unconfirmed-section h2 {
+    font-size: 15px;
+    color: #E65100;
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+  .uc-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 8px 0;
+    border-bottom: 1px solid #fff8e1;
+  }
+  .uc-item:last-child { border-bottom: none; }
+  .uc-badge {
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 8px;
+    background: #fffde7;
+    color: #F57F17;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .uc-text { font-size: 12px; color: #3a4a65; line-height: 1.6; }
+  .uc-text b { color: #1a2744; }
+
+  .tips-section {
+    background: linear-gradient(135deg, #fffde7, #e3f2fd);
+    border-radius: 14px;
+    padding: 16px;
+    margin: 12px 0;
+  }
+  .tips-section h2 {
+    font-size: 15px;
+    color: #3a4a65;
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+  .tips-section .tip {
+    font-size: 12px;
+    color: #5a6a85;
+    line-height: 1.8;
+    margin-bottom: 4px;
+  }
+
+  .footer {
+    text-align: center;
+    padding: 16px;
+    font-size: 11px;
+    color: #aab5c5;
+  }
+
+  @media (max-width: 420px) {
+    .people-grid { grid-template-columns: repeat(2, 1fr); }
+    .depart-grid { grid-template-columns: 1fr 1fr; }
+    .header h1 { font-size: 20px; }
+    .tab-btn { padding: 10px 2px 8px; }
+    .tab-btn .tab-day { font-size: 14px; }
+    .tab-btn .tab-label { font-size: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <h1>兖州之行</h1>
+  <div class="subtitle">2026.9.17 (三) — 9.20 (六)</div>
+</div>
+
+<!-- Tab Bar -->
+<div class="tab-bar">
+  <button class="tab-btn active" data-tab="day1" onclick="switchTab('day1')">
+    <span class="tab-day">Day 1</span>
+    <span class="tab-label">9/17 到达</span>
+  </button>
+  <button class="tab-btn" data-tab="day2" onclick="switchTab('day2')">
+    <span class="tab-day">Day 2</span>
+    <span class="tab-label">9/18 庆生</span>
+  </button>
+  <button class="tab-btn" data-tab="day3" onclick="switchTab('day3')">
+    <span class="tab-day">Day 3</span>
+    <span class="tab-label">9/19 重头戏</span>
+  </button>
+  <button class="tab-btn" data-tab="day4" onclick="switchTab('day4')">
+    <span class="tab-day">Day 4</span>
+    <span class="tab-label">9/20 返程</span>
+  </button>
+</div>
+
+<!-- People Toggle -->
+<div class="people-toggle" onclick="togglePeople()">
+  <span>出行人员 (凡/栩/敏/燕/鸭)</span>
+  <span class="arrow">▼</span>
+</div>
+<div class="people-panel" id="peoplePanel">
+  <div class="people-grid">
+    <div class="person-card">
+      <div class="person-avatar c-fan">凡</div>
+      <div class="person-info">
+        <div class="person-name">凡</div>
+        <div class="person-arrival">9/17 18:00 到</div>
+      </div>
+    </div>
+    <div class="person-card">
+      <div class="person-avatar c-xu">栩</div>
+      <div class="person-info">
+        <div class="person-name">栩</div>
+        <div class="person-arrival">9/17 18:00 到</div>
+      </div>
+    </div>
+    <div class="person-card">
+      <div class="person-avatar c-min">敏</div>
+      <div class="person-info">
+        <div class="person-name">敏</div>
+        <div class="person-arrival">9/17 18:00 到</div>
+      </div>
+    </div>
+    <div class="person-card">
+      <div class="person-avatar c-ya">鸭</div>
+      <div class="person-info">
+        <div class="person-name">鸭</div>
+        <div class="person-arrival">9/17 21:00 到</div>
+      </div>
+    </div>
+    <div class="person-card">
+      <div class="person-avatar c-yan">燕</div>
+      <div class="person-info">
+        <div class="person-name">燕</div>
+        <div class="person-arrival">9/18 11:08 到</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- ==================== DAY 1 ==================== -->
+<div class="tab-content active" id="day1">
+  <div class="day-section">
+    <div class="day-header">
+      <span class="day-badge">DAY 1</span>
+      <span class="day-date">9月17日</span>
+      <span class="day-weekday">周三</span>
+    </div>
+    <div class="timeline">
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-time">18:00</div>
+        <div class="tl-title">凡 / 栩 / 敏 到达兖州</div>
+        <div class="tl-detail">三人同行到达</div>
+        <div class="tl-tags">
+          <span class="tl-tag who">凡</span>
+          <span class="tl-tag who">栩</span>
+          <span class="tl-tag who">敏</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot food"></div>
+        <div class="tl-time">~ 18:30</div>
+        <div class="tl-title">济宁夹饼（校场小区东区店）</div>
+        <div class="tl-detail">兖州特色小吃，别错过！</div>
+        <a class="map-link" href="https://www.amap.com/search?query=济宁夹饼校场小区东区店兖州&appname=gaode-map-lbs" target="_blank">
+          <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>
+          高德地图导航
+        </a>
+        <div class="tl-tags">
+          <span class="tl-tag note">20:00 关门，抓紧吃！</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot hotel"></div>
+        <div class="tl-time">~ 19:30</div>
+        <div class="tl-title">入住 你好酒店</div>
+        <div class="tl-detail">兖州火车站兴隆文化园店，先放行李休息</div>
+        <a class="map-link" href="https://www.amap.com/search?query=你好酒店兖州火车站&appname=gaode-map-lbs" target="_blank">
+          <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>
+          高德地图导航
+        </a>
+        <div class="tl-tags">
+          <span class="tl-tag who">凡</span>
+          <span class="tl-tag who">栩</span>
+          <span class="tl-tag who">敏</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-time">21:00</div>
+        <div class="tl-title">鸭 到达济宁北站</div>
+        <div class="tl-detail">济宁北站到站，三人去接，四人集合</div>
+        <div class="tl-tags">
+          <span class="tl-tag who">鸭</span>
+          <span class="tl-tag">全员集合！</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot food"></div>
+        <div class="tl-time">21:30+</div>
+        <div class="tl-title">胡同里酒馆</div>
+        <div class="tl-detail">四人集合，兖州夜生活走起</div>
+        <a class="map-link" href="https://www.amap.com/search?query=胡同里酒馆兖州&appname=gaode-map-lbs" target="_blank">
+          <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>
+          高德地图导航
+        </a>
+        <div class="tl-tags">
+          <span class="tl-tag who">凡</span>
+          <span class="tl-tag who">栩</span>
+          <span class="tl-tag who">敏</span>
+          <span class="tl-tag who">鸭</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Tips for Day 1 -->
+  <div class="tips-section">
+    <h2>Day 1 提醒</h2>
+    <div class="tip">🍽 <b>济宁夹饼</b> 20:00 关门，到了直接冲！</div>
+    <div class="tip">🏨 当晚住 <b>你好酒店</b>（兖州火车站兴隆文化园店）</div>
+  </div>
+</div>
+
+<!-- ==================== DAY 2 ==================== -->
+<div class="tab-content" id="day2">
+  <div class="day-section">
+    <div class="day-header">
+      <span class="day-badge">DAY 2</span>
+      <span class="day-date">9月18日</span>
+      <span class="day-weekday">周四</span>
+    </div>
+    <div class="timeline">
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-time">11:08</div>
+        <div class="tl-title">兖州站接燕儿</div>
+        <div class="tl-detail">燕儿到达兖州站，大家去接站</div>
+        <div class="tl-tags">
+          <span class="tl-tag who">燕</span>
+          <span class="tl-tag">全员集合！</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot event"></div>
+        <div class="tl-time">~ 11:15</div>
+        <div class="tl-title">兖州站附近取电动车</div>
+        <div class="tl-detail">接站后先取车，方便出行</div>
+        <div class="tl-tags">
+          <span class="tl-tag who">全员</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot food"></div>
+        <div class="tl-time">~ 11:30</div>
+        <div class="tl-title">鑫源餐馆（午餐）</div>
+        <div class="tl-detail">接站后直奔午饭</div>
+        <a class="map-link" href="https://www.amap.com/search?query=鑫源餐馆兖州&appname=gaode-map-lbs" target="_blank">
+          <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>
+          高德地图导航
+        </a>
+        <div class="tl-tags">
+          <span class="tl-tag who">全员</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot event"></div>
+        <div class="tl-time">下午</div>
+        <div class="tl-title">自由活动</div>
+        <div class="tl-detail">午休 / 逛街 / 兖州城区闲逛</div>
+        <div class="tl-tags">
+          <span class="tl-tag tbd">待安排</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot food"></div>
+        <div class="tl-time">~ 17:30</div>
+        <div class="tl-title">牛田烤肉（晚餐）</div>
+        <div class="tl-detail">兖州店，烤肉走起</div>
+        <a class="map-link" href="https://www.amap.com/search?query=牛田烤肉兖州&appname=gaode-map-lbs" target="_blank">
+          <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>
+          高德地图导航
+        </a>
+        <div class="tl-tags">
+          <span class="tl-tag who">全员</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot hotel"></div>
+        <div class="tl-time">晚上</div>
+        <div class="tl-title">入住 芒果酒店</div>
+        <div class="tl-detail">济宁兖州火车站店</div>
+        <a class="map-link" href="https://www.amap.com/search?query=芒果酒店兖州火车站&appname=gaode-map-lbs" target="_blank">
+          <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>
+          高德地图导航
+        </a>
+        <div class="tl-tags">
+          <span class="tl-tag who">全员</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot event"></div>
+        <div class="tl-time">21:30</div>
+        <div class="tl-title">富泰良品（文化路店）取蛋糕</div>
+        <div class="tl-detail">提前订好的蛋糕，为凌晨庆生准备</div>
+        <a class="map-link" href="https://www.amap.com/search?query=富泰良品文化路店兖州&appname=gaode-map-lbs" target="_blank">
+          <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>
+          高德地图导航
+        </a>
+      </div>
+
+      <div class="birthday-banner">
+        <div class="bb-title">🎂 9/19 凌晨 · 给雷子（田栩宁）过生日</div>
+        <div class="bb-text">
+          跨夜庆生！蛋糕 + 惊喜，给老爸一个难忘的夜晚
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="tips-section">
+    <h2>Day 2 提醒</h2>
+    <div class="tip">🏨 换住 <b>芒果酒店</b>（济宁兖州火车站店），之后两晚都在这</div>
+    <div class="tip">🎂 21:30 取蛋糕，准备凌晨庆生！</div>
+  </div>
+</div>
+
+<!-- ==================== DAY 3 ==================== -->
+<div class="tab-content" id="day3">
+  <div class="day-section">
+    <div class="day-header">
+      <span class="day-badge" style="background:linear-gradient(135deg,#EF5350,#E53935)">DAY 3</span>
+      <span class="day-date">9月19日</span>
+      <span class="day-weekday">周五 · 重头戏</span>
+    </div>
+    <div class="timeline">
+
+      <div class="tl-item">
+        <div class="tl-dot event"></div>
+        <div class="tl-time">08:00 - 11:00</div>
+        <div class="tl-title">牛楼小镇 · 非遗应援 &amp; 苹果助农应援</div>
+        <div class="tl-detail">
+          早起出发！非遗应援 + 苹果助农活动<br>
+          9:19 购买专辑
+        </div>
+        <a class="map-link" href="https://www.amap.com/search?query=牛楼小镇兖州&appname=gaode-map-lbs" target="_blank">
+          <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>
+          高德地图导航
+        </a>
+        <div class="tl-tags">
+          <span class="tl-tag who">全员</span>
+          <span class="tl-tag note">8:00 开始，别赖床！</span>
+        </div>
+      </div>
+
+      <div class="highlight-box">
+        <div class="hl-title">上午活动安排</div>
+        <div class="hl-text">
+          非遗应援 → 苹果助农应援 → <b style="color:#E53935">9:19 购买专辑</b><br>
+          预计 11:00 结束
+        </div>
+      </div>
+
+      <div class="album-highlight">
+        <div class="ah-time">9 : 1 9</div>
+        <div class="ah-label">购买专辑</div>
+        <div class="ah-sub">牛楼小镇 · 非遗应援现场</div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-time">12:00 - 17:20</div>
+        <div class="tl-title">草坪打卡</div>
+        <div class="tl-detail">整个下午的弹性时间，中间穿插双人痛楼（15:00）</div>
+        <div class="tl-tags">
+          <span class="tl-tag note">灵活安排</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot event"></div>
+        <div class="tl-time">15:00</div>
+        <div class="tl-title">双人痛楼 · 龙贵广场</div>
+        <div class="tl-detail">下午的重头戏</div>
+        <a class="map-link" href="https://www.amap.com/search?query=龙贵广场兖州&appname=gaode-map-lbs" target="_blank">
+          <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>
+          高德地图导航
+        </a>
+        <div class="tl-tags">
+          <span class="tl-tag who">全员</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot event"></div>
+        <div class="tl-time">18:30 - 20:45</div>
+        <div class="tl-title">圣德国际广场 · 婚宴</div>
+        <div class="tl-detail">圣德国际酒店宴会厅</div>
+        <a class="map-link" href="https://www.amap.com/search?query=圣德国际酒店兖州&appname=gaode-map-lbs" target="_blank">
+          <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>
+          高德地图导航
+        </a>
+        <div class="tl-tags">
+          <span class="tl-tag who">全员</span>
+          <span class="tl-tag note">正式场合，注意着装</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot event"></div>
+        <div class="tl-time">21:00</div>
+        <div class="tl-title">九州广场 · 摇旗</div>
+        <div class="tl-detail">婚宴结束后集合前往</div>
+        <a class="map-link" href="https://www.amap.com/search?query=九州广场兖州&appname=gaode-map-lbs" target="_blank">
+          <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>
+          高德地图导航
+        </a>
+        <div class="tl-tags">
+          <span class="tl-tag who">全员</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot hotel"></div>
+        <div class="tl-time">~ 21:30</div>
+        <div class="tl-title">入住 芒果酒店</div>
+        <div class="tl-detail">今天还是芒果酒店，好好休息</div>
+        <div class="tl-tags">
+          <span class="tl-tag who">全员</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="tips-section">
+    <h2>Day 3 提醒</h2>
+    <div class="tip">⏰ <b>8:00</b> 牛楼小镇活动开始，记得早起！</div>
+    <div class="tip">🎂 <b>9:19</b> 准时购买专辑</div>
+    <div class="tip">👗 <b>18:30 婚宴</b> 圣德国际广场，注意着装</div>
+    <div class="tip">🌿 <b>12:00-17:20</b> 草坪打卡，灵活安排，中间15:00双人痛楼</div>
+  </div>
+</div>
+
+<!-- ==================== DAY 4 ==================== -->
+<div class="tab-content" id="day4">
+  <div class="day-section">
+    <div class="day-header">
+      <span class="day-badge" style="background:linear-gradient(135deg,#FFC107,#FF8F00)">DAY 4</span>
+      <span class="day-date">9月20日</span>
+      <span class="day-weekday">周六 · 玩到晚上再走</span>
+    </div>
+    <div class="timeline">
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-time">上午</div>
+        <div class="tl-title">少陵公园</div>
+        <div class="tl-detail">李白游兖州纪念地，顺便逛逛</div>
+        <a class="map-link" href="https://www.amap.com/search?query=少陵公园兖州&appname=gaode-map-lbs" target="_blank">
+          <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>
+          高德地图导航
+        </a>
+        <div class="tl-tags">
+          <span class="tl-tag who">全员</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot event"></div>
+        <div class="tl-time">上午 / 中午</div>
+        <div class="tl-title">东方中学（雷子母校）</div>
+        <div class="tl-detail">打卡雷子母校，回忆杀</div>
+        <a class="map-link" href="https://www.amap.com/search?query=东方中学兖州&appname=gaode-map-lbs" target="_blank">
+          <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>
+          高德地图导航
+        </a>
+        <div class="tl-tags">
+          <span class="tl-tag who">全员</span>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-time">中午</div>
+        <div class="tl-title">牛楼小镇</div>
+        <div class="tl-detail">再逛一次牛楼小镇，补打卡</div>
+        <a class="map-link" href="https://www.amap.com/search?query=牛楼小镇兖州&appname=gaode-map-lbs" target="_blank">
+          <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>
+          高德地图导航
+        </a>
+      </div>
+
+    </div>
+
+    <div style="margin-top:14px; padding-top:12px; border-top:1px solid #fff3e0;">
+      <div style="font-size:14px; font-weight:600; color:#1a2744; margin-bottom:10px;">返程安排</div>
+      <div class="depart-grid">
+        <div class="depart-card">
+          <div class="name">凡</div>
+          <div class="time">20:00</div>
+          <div class="station">曲阜东站</div>
+          <a class="map-link" style="justify-content:center; margin-top:3px;" href="https://www.amap.com/search?query=曲阜东站&appname=gaode-map-lbs" target="_blank">
+            <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>
+            导航
+          </a>
+        </div>
+        <div class="depart-card">
+          <div class="name">鸭</div>
+          <div class="time">17:30</div>
+          <div class="station">济宁北 / 曲阜东</div>
+          <a class="map-link" style="justify-content:center; margin-top:3px;" href="https://www.amap.com/search?query=济宁北站&appname=gaode-map-lbs" target="_blank">
+            <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>
+            导航
+          </a>
+        </div>
+        <div class="depart-card">
+          <div class="name">栩 / 敏</div>
+          <div class="time">00:30 (9/21)</div>
+          <div class="station">兖州站</div>
+          <a class="map-link" style="justify-content:center; margin-top:3px;" href="https://www.amap.com/search?query=兖州站&appname=gaode-map-lbs" target="_blank">
+            <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>
+            导航
+          </a>
+        </div>
+        <div class="depart-card">
+          <div class="name">燕</div>
+          <div class="time">22:00</div>
+          <div class="station">济宁大安机场</div>
+          <a class="map-link" style="justify-content:center; margin-top:3px;" href="https://www.amap.com/search?query=济宁大安机场&appname=gaode-map-lbs" target="_blank">
+            <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>
+            导航
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tips-section">
+    <h2>Day 4 提醒</h2>
+    <div class="tip">🚄 返程都是晚上：<b>鸭 17:30</b> 最早走；<b>凡 20:00</b>；<b>燕 22:00</b>；<b>栩/敏 00:30 (9/21)</b> 最晚</div>
+    <div class="tip">🍽 散伙饭待定，选个有仪式感的地方</div>
+  </div>
+</div>
+
+<!-- ==================== TODO Section (always visible at bottom) ==================== -->
+<div class="unconfirmed-section">
+  <h2>📋 待讨论 &amp; 待安排</h2>
+  <div class="uc-item">
+    <span class="uc-badge">Day 2 下午</span>
+    <span class="uc-text"><b>blue 串 + 云象茶</b> — 两家离得很近，可以安排在一起逛。blue 串作为逛街打卡点，云象茶作为下午茶/饮品休息。具体安排在 Day2 下午还是 Day3 下午，看哪天更顺路</span>
+  </div>
+  <div class="uc-item">
+    <span class="uc-badge">Day 3 下午</span>
+    <span class="uc-text">草坪打卡（12:00-17:20）期间，看是否安排 blue 串 + 云象茶 或填满其他活动</span>
+  </div>
+  <div class="uc-item">
+    <span class="uc-badge">Day 4 午餐</span>
+    <span class="uc-text">少陵公园 / 东方中学 / 牛楼小镇之间的午餐安排</span>
+  </div>
+  <div class="uc-item">
+    <span class="uc-badge">Day 4 晚餐</span>
+    <span class="uc-text"><b>散伙饭</b> — 返程前最后一餐，需要选个有仪式感的地方</span>
+  </div>
+  <div class="uc-item">
+    <span class="uc-badge">新地点</span>
+    <span class="uc-text"><b>东方中学</b>（雷子母校）— 已排入 Day4 上午</span>
+  </div>
+</div>
+
+</div><!-- /container -->
+
+<div class="footer">
+  兖州之行 · 2026.9.17-20 · 五人团
+</div>
+
+<script>
+function switchTab(tabId) {
+  // Hide all tab contents
+  document.querySelectorAll('.tab-content').forEach(function(el) {
+    el.classList.remove('active');
+  });
+  // Deactivate all tabs
+  document.querySelectorAll('.tab-btn').forEach(function(btn) {
+    btn.classList.remove('active');
+  });
+  // Show selected tab
+  document.getElementById(tabId).classList.add('active');
+  // Activate button
+  document.querySelector('.tab-btn[data-tab="' + tabId + '"]').classList.add('active');
+  // Scroll to top of content
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function togglePeople() {
+  var toggle = document.querySelector('.people-toggle');
+  var panel = document.getElementById('peoplePanel');
+  toggle.classList.toggle('open');
+  panel.classList.toggle('open');
+}
+</script>
+
+</body>
+</html>
